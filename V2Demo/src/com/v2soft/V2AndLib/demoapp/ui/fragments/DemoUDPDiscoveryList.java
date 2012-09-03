@@ -35,7 +35,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.v2soft.AndLib.ui.Adapters.CustomViewAdapter;
 import com.v2soft.AndLib.ui.fragments.BaseFragment;

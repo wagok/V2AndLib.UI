@@ -16,6 +16,7 @@
 package com.v2soft.AndLib.ui.fragments;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.view.View;
@@ -26,11 +27,11 @@ import com.v2soft.AndLib.application.BaseApplicationSettings;
 
 /**
  * Base fragment class
- * @author diacht
+ * @author V.Shcryabets<vshcryabets@gmail.com>
  *
  */
-public abstract class BaseFragment<T extends BaseApplication<S>, S extends BaseApplicationSettings> 
-extends Fragment 
+public abstract class BaseDialogFragment<T extends BaseApplication<S>, S extends BaseApplicationSettings> 
+extends DialogFragment 
 implements OnClickListener {
     protected T mApp;
     protected S mSettings;
@@ -56,12 +57,12 @@ implements OnClickListener {
         }
     }
 
-    protected void startFragment(int resId, Fragment fragment, boolean addToStack) {
+    protected void startFragment(int resId, Fragment fragment, boolean addToStack, String stackTag) {
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(resId, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         if ( addToStack ) {
-            ft.addToBackStack(fragment.getTag());
+            ft.addToBackStack(getTag());
         }
         ft.commit();
     }

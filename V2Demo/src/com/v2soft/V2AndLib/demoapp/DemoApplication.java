@@ -27,12 +27,12 @@ import com.v2soft.AndLib.application.BaseApplication;
  */
 @ReportsCrashes(formKey = "4EACFC6E-B77D-4555-ACE9-F7B3A96E13C5", mailTo = "info@2vsoft.com")
 public class DemoApplication extends BaseApplication<DemoAppSettings> {
-	@Override
-	public void onCreate() {
-		ACRA.init(this);
-		super.onCreate();
-	}
-	
+    @Override
+    public void onCreate() {
+        ACRA.init(this);
+        super.onCreate();
+    }
+
     @Override
     protected DemoAppSettings createApplicationSettings() {
         return new DemoAppSettings(this);
