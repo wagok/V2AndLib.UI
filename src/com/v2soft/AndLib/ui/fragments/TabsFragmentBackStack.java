@@ -18,6 +18,7 @@ package com.v2soft.AndLib.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -42,19 +43,22 @@ implements IBackStack {
     private static final String KEY_TAB_NAMES = "tabNames";
     private static final String KEY_CLASS_NAMES = "classNames";
     private static final String KEY_ARGUMENTS = "arguments";
+    private static final String KEY_STATES = "states";
     private Context mContext;
     private HashMap<String, Stack<Fragment>> mTabs;
     private Stack<Fragment> mCurrentStack;
     private TabsFragmentBackStackListener mListener;
     private String mCurrentTabTag;
+    private FragmentManager mManager;
 
-    public TabsFragmentBackStack(Context context, TabsFragmentBackStackListener listener) {
+    public TabsFragmentBackStack(Context context, TabsFragmentBackStackListener listener, FragmentManager manager) {
         if ( listener == null ) {
             throw new NullPointerException("Listener shpuld not be null");
         }
         mListener = listener;
         mContext = context;
         mTabs = new HashMap<String, Stack<Fragment>>();
+        mManager = manager;
     }
     /**
      * Show fragment in current tab
@@ -144,9 +148,14 @@ implements IBackStack {
             for (Fragment fragment : tabStack) {
                 final String classname = fragment.getClass().getName();
                 classNames[pos] = classname;
-                final Bundle fragmentData = new Bundle();
-                fragmentData.putBundle(KEY_ARGUMENTS, fragment.getArguments());
-                bundle.putBundle(String.valueOf(pos), fragmentData);
+//                final
+//                final Bundle fragmentData = mManager.saveFragmentInstanceState(fragment);
+//                fragmentData.putBundle(KEY_ARGUMENTS, fragment.getArguments());
+//                final Bundle savedState = new Bundle();
+//                fragment.onSaveInstanceState(savedState);
+//                fragmentData.putBundle(KEY_STATES, savedState);
+                mManager.putFragment(bundle, String.valueOf(pos), fragment);
+//                bundle.putBundle(String.valueOf(pos), fragmentData);
                 pos++;
             }
             bundle.putStringArray(KEY_CLASS_NAMES, classNames);
@@ -166,9 +175,11 @@ implements IBackStack {
                 final Stack<Fragment> stack = new Stack<Fragment>();
                 int pos = 0;
                 for (String classname : classNames) {
-                    final Bundle fragmentData = tabBundle.getBundle(String.valueOf(pos));
-                    final Fragment fragment = Fragment.instantiate(mContext, classname);
-                    fragment.setArguments(fragmentData.getBundle(KEY_ARGUMENTS));
+                    final Fragment fragment = mManager.getFragment(tabBundle, String.valueOf(pos));
+//                    final Bundle fragmentData = tabBundle.getBundle(String.valueOf(pos));
+//                    final Bundle states = fragmentData.getBundle(KEY_STATES);
+//                    final Fragment fragment = Fragment.instantiate(mContext, classname, states);
+//                    fragment.setArguments(fragmentData.getBundle(KEY_ARGUMENTS));
                     stack.push(fragment);
                     pos++;
                 }
