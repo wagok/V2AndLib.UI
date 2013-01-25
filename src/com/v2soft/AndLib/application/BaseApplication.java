@@ -41,7 +41,6 @@ public abstract class BaseApplication<S extends BaseApplicationSettings> extends
     @Override
     public void onCreate() {
         super.onCreate();
-        super.onCreate();
         mFontManager = new FontManager(this);
         onCreateSettings(createApplicationSettings());
         mSettings.loadSettings();
